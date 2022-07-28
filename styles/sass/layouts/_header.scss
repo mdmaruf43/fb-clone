@@ -1,0 +1,26 @@
+
+.header__wraper {
+	background-color: #fff;
+	box-shadow: 0 2px 2px rgb(0 0 0 / 7%);
+	.mobile__menu--icon {
+		ul {
+			li:not(:last-child) { 
+				margin-right: 12px;
+				cursor: pointer;
+			}
+		}
+		svg {
+			font-size: 25px;
+		}
+	}
+	.right__sec {
+		svg {
+			font-size: 30px;
+		}
+	}
+	.navbar-collapse {
+		@include media-break-width(320, 991) {
+			display: none;
+		}
+	}
+}
