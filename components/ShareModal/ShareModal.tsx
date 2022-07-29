@@ -7,10 +7,17 @@ import Image from "next/image";
 interface PropsDataType {
     show:           boolean;
     handleClose:    () => void;
-    onePost:        PostDataType | null;
+    text?:           string;
+    photos?:         PhotosDataType[];
 }
 
-const ShareModal: React.FC<PropsDataType> = ({ handleClose, show, onePost }) => {
+interface PhotosDataType {
+    id:   number;
+    path: string;
+}
+
+const ShareModal: React.FC<PropsDataType> = ({ handleClose, show, text, photos }) => {
+    console.log(photos);
     return (
         <Modal
             show={show}
@@ -23,10 +30,10 @@ const ShareModal: React.FC<PropsDataType> = ({ handleClose, show, onePost }) => 
             </Modal.Header>
             <Modal.Body>
                 <div className="share__modal">
-                    <p>{onePost?.description}</p>
+                    <p>{text}</p>
                     <div className="image__section">
                         {
-                            onePost?.photos?.map((photo, index) => (
+                            photos?.map((photo, index) => (
                                 <div key={index}>
                                     <Image 
                                         src={photo?.path}

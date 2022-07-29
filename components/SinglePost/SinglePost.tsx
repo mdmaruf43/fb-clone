@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React, { useState, Dispatch, SetStateAction } from 'react';
-import Lightbox from "react-awesome-lightbox";
 import { Form } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 import PostDataType from '../../dto/PostDataType';
+import Lightbox from "react-awesome-lightbox";
 
 interface PropsDataType {
     post:       PostDataType;

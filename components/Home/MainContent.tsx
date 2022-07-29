@@ -11,8 +11,8 @@ const MainContent: React.FC = () => {
 
     const handleClose = () => setShow(false);
 
-    const findPostId = (id:number) => {
-        setOnePost(userPost?.data?.posts.find((post) => post?.id === id));
+    const findPostId = (id: number) => {
+        setOnePost(postData?.find((post) => post?.id === id));
     }
 
     useEffect(() => {
@@ -34,11 +34,17 @@ const MainContent: React.FC = () => {
                         ))
                     ) : null
             }
-            <ShareModal 
-                show={show}
-                handleClose={handleClose}
-                onePost={onePost}
-            />
+            {
+                show && (
+                    <ShareModal 
+                        show={show}
+                        handleClose={handleClose}
+                        photos={onePost?.photos}
+                        text={onePost?.description}
+                    />
+                )
+
+            }
         </div>
     )
 }
