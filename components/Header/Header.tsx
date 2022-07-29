@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
+import { Container, Button} from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { AiOutlineHome } from "react-icons/ai";
@@ -12,14 +12,97 @@ import Image from "next/image";
 import { Form } from "react-bootstrap";
 import UserContext from "../../context/userContext";
 import UserContextType from "../../dto/UserContextType";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import { onlineUserList } from "../../services/API/onlineUserList";
+import UserDataType from "../../dto/UserDataType";
 
 const Header: React.FC = () => {
     const [show, setShow]                       = useState(false);
     const [mobileSearchBtn, setMobileSearchBtn] = useState<boolean>(true);
     const { userName, userPhoto }               = React.useContext(UserContext) as UserContextType;
+    const [user, setUser]                       = useState<UserDataType[]>([]);
+    const [userSearch, setUserSearch]           = useState("");
+
+    useEffect(() => {
+        setUser(onlineUserList?.data);
+    }, [])
     
     const handleClose       = () => setShow(false);
     const handleShow        = () => setShow(true);
+
+    const notificationPopover = (
+        <Popover id="popover-basic">
+          <Popover.Header as="h3">All Notification</Popover.Header>
+          <Popover.Body>
+                <div className="each__profile--layout">
+                    <div>
+                        <Image 
+                            src={userPhoto}
+                            alt={userName}
+                            width={40}
+                            height={40}
+                            style={{ borderRadius: "50%"}}
+                        />
+                    </div>
+                    <div className="">
+                        <p className="name"><span>{userName}</span> accepted your Friedn Request</p>
+                    </div>
+                </div>
+          </Popover.Body>
+        </Popover>
+    );
+
+    const messagePopover = (
+        <Popover id="popover-basic">
+          <Popover.Header as="h3">Recent Message</Popover.Header>
+          <Popover.Body>
+                <div className="each__profile--layout">
+                    <div>
+                        <Image 
+                            src={userPhoto}
+                            alt={userName}
+                            width={40}
+                            height={40}
+                            style={{ borderRadius: "50%"}}
+                        />
+                    </div>
+                    <div className="">
+                        <p className="name"><span>{userName}</span></p>
+                        <p>Hi, Yoo</p>
+                    </div>
+                </div>
+          </Popover.Body>
+        </Popover>
+    );
+
+    const searchPopover = (
+        <Popover id="popover-basic">
+          <Popover.Body>
+                {
+                    user?.map((singleUser, index) => (
+                        singleUser?.name?.toLocaleLowerCase().includes(userSearch.toLowerCase()) && (
+                            <div key={index} className="each__profile--layout">
+                                <div>
+                                    <Image 
+                                        src={singleUser?.photo}
+                                        alt={singleUser?.name}
+                                        width={40}
+                                        height={40}
+                                        style={{ borderRadius: "50%"}}
+                                    />
+                                </div>
+                                <div className="d-flex align-items-center">
+                                    <p className="name"><span>{singleUser?.name}</span></p>
+                                </div>
+                            </div>
+                        )
+                    ))
+                }
+                
+          </Popover.Body>
+        </Popover>
+    );
 
     return (
         <Navbar className="header__wraper" expand="lg" fixed="top">
@@ -46,8 +129,20 @@ const Header: React.FC = () => {
                             <AiOutlineHome />
                         </li>
                     </Link>
-                    <li><AiOutlineMessage /></li>
-                    <li><IoMdNotificationsOutline /></li>
+                    <li>
+                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={messagePopover}>
+                            <Button>
+                                <AiOutlineMessage />
+                            </Button>
+                        </OverlayTrigger>
+                    </li>
+                    <li>
+                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={notificationPopover}>
+                            <Button>
+                                <IoMdNotificationsOutline />
+                            </Button>
+                        </OverlayTrigger>
+                    </li>
                     <li>
                         <Image
                             src="/assets/images/user.jpg"
@@ -102,13 +197,20 @@ const Header: React.FC = () => {
             </div>
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto"></Nav>
-                <Nav className="me-auto header__search">
-                    <Form>
-                        <Form.Group className="position-relative" controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Search" />
-                            <span><AiOutlineSearch /></span>
-                        </Form.Group>
-                    </Form>
+                <Nav className="me-auto header__search position-relative">
+                    <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={searchPopover}>
+                        <Form>
+                            <Form.Group className="position-relative" controlId="formBasicEmail">
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Search" 
+                                    value={userSearch}
+                                    onChange={(e) => setUserSearch(e.target.value)}
+                                />
+                                <span><AiOutlineSearch /></span>
+                            </Form.Group>
+                        </Form>
+                    </OverlayTrigger>
                 </Nav>
                 <Nav className="right__sec">
                     <Link href="/" passHref>
@@ -117,10 +219,18 @@ const Header: React.FC = () => {
                         </Nav.Link>
                     </Link>
                     <Nav.Link>
-                        <AiOutlineMessage />
+                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={messagePopover}>
+                            <Button>
+                                <AiOutlineMessage />
+                            </Button>
+                        </OverlayTrigger>
                     </Nav.Link>
                     <Nav.Link>
-                        <IoMdNotificationsOutline />
+                        <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={notificationPopover}>
+                            <Button>
+                                <IoMdNotificationsOutline />
+                            </Button>
+                        </OverlayTrigger>
                     </Nav.Link>
                     <Nav.Link>
                         <Image

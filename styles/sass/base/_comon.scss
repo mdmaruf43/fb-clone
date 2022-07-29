@@ -214,3 +214,16 @@ input[type="number"] {
   background: #777;
   cursor: grab;
 }
+.each__profile--layout {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 40px 1fr;
+  cursor: pointer;
+  p {
+    font-size: 13px;
+    line-height: 18px;
+    span {
+      font-weight: 500;
+    }
+  }
+}

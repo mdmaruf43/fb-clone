@@ -62,6 +62,7 @@
 			.image__section {
 				padding-top: 15px;
 				display: grid;
+				cursor: pointer;
 				gap: 10px;
 				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 			}
