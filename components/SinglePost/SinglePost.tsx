@@ -1,16 +1,35 @@
-import React, { useEffect, useState } from 'react';
 import Image from "next/image";
-import { BsThreeDots } from "react-icons/bs";
+import React, { useState } from 'react';
+import Lightbox from "react-awesome-lightbox";
 import { Form } from "react-bootstrap";
+import { BsThreeDots } from "react-icons/bs";
 import PostDataType from '../../dto/PostDataType';
 
 interface PropsDataType {
     post: PostDataType;
 }
 
+interface ImageType {
+    url:    string;
+    title:  string;
+}
+
 const SinglePost: React.FC<PropsDataType> = ({ post }) => {
     const [showComment, setShowComment] = useState<boolean>(false);
     const [readMore, setReadMore]       = useState<boolean>(false);
+    const [isOpen, setIsOpen]           = useState<boolean>(false);
+    const [images, setImages]           = useState<ImageType[]>([]);
+    const [imageId, setImageId]         = useState<number>(0);
+
+    const findLightboxImages = (images: { path: string; }[]) => {
+        const transformImagesArr = images.map((image: { path: string; }) => {
+            return {
+                url: image.path,
+                title: ''
+            }
+        });
+        setImages(transformImagesArr);
+    }
 
     return (
         <div className="each__post--content">
@@ -48,10 +67,10 @@ const SinglePost: React.FC<PropsDataType> = ({ post }) => {
                     </div>
                 )
             }
-            <div className="image__section">
+            <div className="image__section" onClick={() => findLightboxImages(post?.photos)}>
                 {
                     post?.photos?.map((photo, index) => (
-                        <div key={index}>
+                        <div key={index}  onClick={() => {setIsOpen(true), setImageId(index)}}>
                             <Image 
                                 src={photo?.path}
                                 alt="image"
@@ -64,13 +83,17 @@ const SinglePost: React.FC<PropsDataType> = ({ post }) => {
                     ))
                 }
             </div>
+            {
+                isOpen && 
+                <Lightbox images={images} startIndex={imageId} onClose={() => setIsOpen(false)} />
+            }
             <div className="like__and--coments d-flex justify-content-between pt-3">
                 <p><strong>{post?.total_likes}</strong> Likes</p>  
                 <p style={{ cursor: "pointer" }} onClick={() => setShowComment(!showComment)}>{post?.comments?.length} Comments</p>
             </div>
             <div className="like__share d-flex justify-content-around">
                 <div>
-                    <button type="button">{post?.is_liked ? <span style={{ color: "#4267B2"}}>Liked</span> : <span>like</span>}</button>
+                    <button type="button">{post?.is_liked ? <span style={{ color: "#4267B2"}}>Liked</span> : <span>Like</span>}</button>
                 </div>
                 <div>
                     <button style={{ cursor: "pointer" }} onClick={() => setShowComment(!showComment)} type="button">Comment</button>

@@ -4,6 +4,7 @@ import "../styles/sass/style.scss";
 import { userData } from '../services/API/logInUser';
 import { useState } from 'react';
 import UserContext from '../context/userContext';
+import "react-awesome-lightbox/build/style.css";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	const [userName, setUserName] 	= useState<string>(userData?.name);
