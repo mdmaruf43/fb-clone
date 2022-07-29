@@ -227,3 +227,10 @@ input[type="number"] {
     }
   }
 }
+.share__modal {
+  .image__section {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}

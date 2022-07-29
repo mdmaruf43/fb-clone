@@ -1,20 +1,22 @@
 import Image from "next/image";
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import Lightbox from "react-awesome-lightbox";
 import { Form } from "react-bootstrap";
 import { BsThreeDots } from "react-icons/bs";
 import PostDataType from '../../dto/PostDataType';
 
 interface PropsDataType {
-    post: PostDataType;
+    post:       PostDataType;
+    findPostId: (id: number) => void;
+    setShow:    Dispatch<SetStateAction<boolean>>;
 }
 
 interface ImageType {
-    url:    string;
-    title:  string;
+    url:        string;
+    title:      string;
 }
 
-const SinglePost: React.FC<PropsDataType> = ({ post }) => {
+const SinglePost: React.FC<PropsDataType> = ({ post, findPostId, setShow }) => {
     const [showComment, setShowComment] = useState<boolean>(false);
     const [readMore, setReadMore]       = useState<boolean>(false);
     const [isOpen, setIsOpen]           = useState<boolean>(false);
@@ -99,7 +101,7 @@ const SinglePost: React.FC<PropsDataType> = ({ post }) => {
                     <button style={{ cursor: "pointer" }} onClick={() => setShowComment(!showComment)} type="button">Comment</button>
                 </div>
                 <div>
-                    <button type="button">Share</button>
+                    <button onClick={() => { findPostId(post?.id), setShow(true)}} type="button">Share</button>
                 </div>
             </div>
             {
