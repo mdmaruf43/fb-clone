@@ -9,6 +9,9 @@ This project simply FB clone. Try to make a simple UI also dynamic the whole con
 - Context 
 - Hook 
 - React Awesome Lightbox
+- React Bootstrap
+- React Icon 
+- Sass
 
 ## Getting Started
 
