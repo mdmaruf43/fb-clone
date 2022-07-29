@@ -31,6 +31,9 @@
 		overflow: hidden;
 		@include customScrollbar();
 		.each__post--content {
+			&:not(:first-child) {
+				margin-top: 30px;
+			}
 			box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 			background-color: #fff;
 			border-radius: 8px;

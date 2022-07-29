@@ -23,4 +23,15 @@
 			display: none;
 		}
 	}
+	.header__search {
+		input {
+			border-radius: 25px !important;
+			background-color: #f0f2f5;
+		}
+		span {
+			position: absolute;
+			top: 5px;
+			right: 10px;
+		}
+	}
 }

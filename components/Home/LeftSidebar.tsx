@@ -1,20 +1,24 @@
 import React from 'react';
 import Image from "next/image";
+import UserContextType from '../../dto/UserContextType';
+import UserContext from '../../context/userContext';
 
-const LeftSidebar = () => {
+const LeftSidebar: React.FC = () => {
+    const { userName, userPhoto } = React.useContext(UserContext) as UserContextType;
+
     return (
         <div className="position-relative">
             <div className="left__section">
                 <div className="each__profile d-flex">
                     <Image 
-                        src="/assets/images/user.jpg"
-                        alt="image"
+                        src={userPhoto}
+                        alt={userName}
                         width={45}
                         height={45}
                         style={{ borderRadius: "50%"}}
                     />
                     <div className="d-flex align-items-center ps-2">
-                        <p className="name">Maruf Ahmed</p>
+                        <p className="name">{userName}</p>
                     </div>
                 </div>
                 <div className="each__profile d-flex">

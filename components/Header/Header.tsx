@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -10,9 +10,14 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Image from "next/image";
 import { Form } from "react-bootstrap";
+import UserContext from "../../context/userContext";
+import UserContextType from "../../dto/UserContextType";
 
 const Header: React.FC = () => {
-    const [show, setShow]   = useState(false);
+    const [show, setShow]                       = useState(false);
+    const [mobileSearchBtn, setMobileSearchBtn] = useState<boolean>(true);
+    const { userName, userPhoto }               = React.useContext(UserContext) as UserContextType;
+    
     const handleClose       = () => setShow(false);
     const handleShow        = () => setShow(true);
 
@@ -33,14 +38,14 @@ const Header: React.FC = () => {
             </Link>
             <div className="mobile__menu--icon d-lg-none">
                 <ul className="d-flex">
-                    <li>
+                    <li onClick={() => setMobileSearchBtn(!mobileSearchBtn)}>
                         <AiOutlineSearch />
                     </li>
-                    <li>
-                        <Link href="/" passHref>
+                    <Link href="/" passHref>
+                        <li>
                             <AiOutlineHome />
-                        </Link>
-                    </li>
+                        </li>
+                    </Link>
                     <li><AiOutlineMessage /></li>
                     <li><IoMdNotificationsOutline /></li>
                     <li>
@@ -97,10 +102,11 @@ const Header: React.FC = () => {
             </div>
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto"></Nav>
-                <Nav className="me-auto">
+                <Nav className="me-auto header__search">
                     <Form>
-                        <Form.Group className="" controlId="formBasicEmail">
+                        <Form.Group className="position-relative" controlId="formBasicEmail">
                             <Form.Control type="text" placeholder="Search" />
+                            <span><AiOutlineSearch /></span>
                         </Form.Group>
                     </Form>
                 </Nav>
@@ -118,10 +124,11 @@ const Header: React.FC = () => {
                     </Nav.Link>
                     <Nav.Link>
                         <Image
-                            src="/assets/images/user.jpg"
-                            alt="user photo"
+                            src={userPhoto}
+                            alt={userName}
                             width={30}
                             height={30}
+                            priority
                             style={{ borderRadius: "50%" }}
                         />
                     </Nav.Link>
