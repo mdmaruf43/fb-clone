@@ -45,7 +45,7 @@ const Header: React.FC = () => {
                             style={{ borderRadius: "50%"}}
                         />
                     </div>
-                    <div className="">
+                    <div className=""> 
                         <p className="name"><span>{userName}</span> accepted your Friedn Request</p>
                     </div>
                 </div>

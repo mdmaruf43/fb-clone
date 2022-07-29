@@ -7,8 +7,8 @@ import Image from "next/image";
 interface PropsDataType {
     show:           boolean;
     handleClose:    () => void;
-    text?:           string;
-    photos?:         PhotosDataType[];
+    text?:          string;
+    photos?:        PhotosDataType[];
 }
 
 interface PhotosDataType {
